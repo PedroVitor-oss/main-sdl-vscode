@@ -1,0 +1,1 @@
+g++ -obin/game main.cpp src/*cpp -Iinclude -Iinclude/game -Llib -lSDL2main -lSDL2 -lSDL2_image -Wno-narrowing
