@@ -3,7 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_Image.h>
-
+#include <CameraControler.h>
 #include <iostream>
 #include <fstream>
 #include <Input.h>
@@ -31,8 +31,9 @@ struct Line{
 };
 class Engine{
 public:
-    //controles do input
-
+    //controles da camera
+    CameraControler camera;
+    float deltaTime;
 
 
 
@@ -49,7 +50,7 @@ public:
     void DrawTexture(SDL_Texture* texture, SpriteGame sprite, SDL_Rect boxArea, bool flipX, bool flipY);
     void DrawRect(SDL_Rect box,RGBColor cor);
     void DrawLine(Line l,RGBColor cor);
-    //colis�o basica
+    //colisão basica
     bool ColisionRect(SDL_Rect box1,SDL_Rect box2);
 
     //controle de save

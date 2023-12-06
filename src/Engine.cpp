@@ -6,6 +6,7 @@
 #include <iostream>
 #include <windows.h>
 #include <fstream>
+#include <string>
 
 void Engine::Init(std::string title, int widthWindow, int heightWindow ){
 
@@ -14,12 +15,12 @@ void Engine::Init(std::string title, int widthWindow, int heightWindow ){
 	int imgInit = IMG_Init(imgFlags);
 	if ((imgInit & imgFlags) == imgFlags && SDL_Init(SDL_INIT_VIDEO)== 0) {
 		//sucessed
-		std::cout<< "crie uma nova janela chamdade de :"<<title<<" com tamanho de "<<widthWindow<<"x"<<heightWindow;
+		std::cout<< "crie uma nova janela chamdade de :"<<title<<" com tamanho de "<<widthWindow<<"x"<<heightWindow<<'\n';
 		window = SDL_CreateWindow( title.c_str(),SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,widthWindow,heightWindow,SDL_WINDOW_SHOWN);
 		screen = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
 	}else{
 		//erro
-		std::cout<<"erro na inicia��o";
+		std::cout<<"erro na inicia��o\n";
 	}
 
 };
@@ -29,6 +30,7 @@ void Engine::Update(int FPS,InputControle input){
 	if (input.GetExit()){
 		Quit();
 	}
+	deltaTime = FPS/1000.0;
 	Sleep(FPS);
 }
 void Engine::Clean(){
@@ -43,7 +45,10 @@ void Engine::SetColorScreen(RGBColor color){
 void Engine::DrawRect(SDL_Rect box, RGBColor cor){
 
 	SDL_SetRenderDrawColor(screen,cor.r,cor.g,cor.b,SDL_ALPHA_OPAQUE);
-	SDL_RenderFillRect(screen,&box);
+	SDL_Rect newBox = box;
+	newBox.x -= camera.GetPosition().x;
+	newBox.y -= camera.GetPosition().y;
+	SDL_RenderFillRect(screen,&newBox);
 };
 //render basico
 void Engine::DrawTexture(SDL_Texture* texture, SpriteGame sprite, SDL_Rect boxArea){
@@ -53,10 +58,14 @@ SDL_Rect boxFrameImg;
 	boxFrameImg.x = sprite.x;
 	boxFrameImg.y = sprite.y;
 
-	if (sprite.w != 0 && boxArea.w != 0) {
-		SDL_RenderCopy(screen, texture, &boxFrameImg, &boxArea);
-	} else if (boxArea.w != 0) {
-		SDL_RenderCopy(screen, texture, nullptr, &boxArea);
+	SDL_Rect nBoxArea = boxArea;
+	nBoxArea.x-=camera.GetPosition().x;
+	nBoxArea.y-=camera.GetPosition().y;
+
+	if (sprite.w != 0 && nBoxArea.w != 0) {
+		SDL_RenderCopy(screen, texture, &boxFrameImg, &nBoxArea);
+	} else if (nBoxArea.w != 0) {
+		SDL_RenderCopy(screen, texture, nullptr, &nBoxArea);
 	} else if (sprite.w != 0) {
 		SDL_RenderCopy(screen, texture, &boxFrameImg, nullptr);
 	} else {
@@ -72,6 +81,10 @@ void Engine::DrawTexture(SDL_Texture* texture, SpriteGame sprite, SDL_Rect boxAr
     boxFrameImg.x = sprite.x;
     boxFrameImg.y = sprite.y;
 
+	SDL_Rect nBoxArea = boxArea;
+	nBoxArea.x-=camera.GetPosition().x;
+	nBoxArea.y-=camera.GetPosition().y;
+
      SDL_RendererFlip flip = SDL_FLIP_NONE;
     if (flipX && flipY) {
         flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL);
@@ -81,7 +94,7 @@ void Engine::DrawTexture(SDL_Texture* texture, SpriteGame sprite, SDL_Rect boxAr
         flip = SDL_FLIP_VERTICAL;
     }
 
-    SDL_RenderCopyEx(screen, texture, &boxFrameImg, &boxArea, 0, nullptr, flip);
+    SDL_RenderCopyEx(screen, texture, &boxFrameImg, &nBoxArea, 0, nullptr, flip);
 }
 SDL_Texture* Engine::CreateTexture(std::string Path){
 	SDL_Texture* newTexture =NULL;
@@ -120,7 +133,7 @@ void Engine::SetSave(std::string name, std::string value)
 	std::ifstream arquivo;
 	arquivo.open(nameSave);
 	std::string line;
-	while(getline(arquivo,line)){
+	while(std::getline(arquivo,line)){
 		std::string nameArquive;
 		for(int i =0;i<name.length();i++){
 			nameArquive+=line[i];
@@ -145,7 +158,7 @@ std::string Engine::GetSave(std::string name)
 	arquivo.open(nameSave);
 	std::string line;
 	std::string strReturn;
-	while(getline(arquivo,line)){
+	while(std::getline(arquivo,line)){
 		std::string nameArquive;
 		for(int i =0;i<name.length();i++){
 			nameArquive+=line[i];
