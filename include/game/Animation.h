@@ -4,22 +4,23 @@
 #include <Engine.h>
 class Animation
 {
-	public:
-		SpriteGame GetSprite();
+public:
+        SpriteGame GetSprite();
         void AddSprite(SpriteGame sprite);
         void SetTimeUpdate(int time);
-        int  GetLength();
-	private:
+        int GetLength();
+
+private:
         int temp = 0;
         int frame = 0;
         int timeUpdate = 10;
         int quantSprites = 0;
         SpriteGame sprites[100];
-        void Update();;
+        void Update();
+        ;
 
-	protected:
-
-	private:
+protected:
+private:
 };
 
 #endif // ANIMATION_H

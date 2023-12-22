@@ -2,22 +2,27 @@
 #include <SDL2/SDL.h>
 void InputControle::AddKey(int newKey)
 {
-	if(QuantKey<maxQuantKey){
+	if (QuantKey < maxQuantKey)
+	{
 		bool contem = false;
-		for(int i =0; i<QuantKey;i++){
-			if(newKey == keyInPressed[i]){
+		for (int i = 0; i < QuantKey; i++)
+		{
+			if (newKey == keyInPressed[i])
+			{
 				contem = true;
-				newKeyDown  =0;
+				newKeyDown = 0;
 				break;
 			}
 		}
-		if(!contem){
+		if (!contem)
+		{
 			keyInPressed[QuantKey] = newKey;
 			QuantKey++;
 		}
 	}
 }
-bool InputControle::GetExit(){
+bool InputControle::GetExit()
+{
 	return EventQuit;
 }
 void InputControle::KeyEvent()
@@ -26,51 +31,58 @@ void InputControle::KeyEvent()
 	btn_mouse[1] = false;
 	btn_mouse[2] = false;
 	EventQuit = false;
-	newKeyDown =0;
+	newKeyDown = 0;
 	newKeyUp = 0;
 	SDL_Event event;
-	while(SDL_PollEvent(&event)){
-		switch(event.type){
-			case SDL_QUIT:
-				EventQuit = true;
+	while (SDL_PollEvent(&event))
+	{
+		switch (event.type)
+		{
+		case SDL_QUIT:
+			EventQuit = true;
 			break;
-			case SDL_KEYDOWN:
-				newKeyDown = event.key.keysym.sym;
-				AddKey(newKeyDown);
+		case SDL_KEYDOWN:
+			newKeyDown = event.key.keysym.sym;
+			AddKey(newKeyDown);
 			break;
-			case SDL_KEYUP:
-				newKeyUp = event.key.keysym.sym;
-				RemoveKey(newKeyUp);
+		case SDL_KEYUP:
+			newKeyUp = event.key.keysym.sym;
+			RemoveKey(newKeyUp);
 			break;
-			case SDL_MOUSEBUTTONDOWN:
-				switch (event.button.button) {
-                case SDL_BUTTON_LEFT:
-                    if (event.button.state == SDL_PRESSED) {
-                       btn_mouse[0] = true;
-                    }
-                    break;
-
-                case SDL_BUTTON_RIGHT:
-                    if (event.button.state == SDL_PRESSED) {
-                       btn_mouse[1] = true;
-                    }
-                    break;
-
-                case SDL_BUTTON_MIDDLE:
-                    if (event.button.state == SDL_PRESSED) {
-                        btn_mouse[2] = true;
-                    }
-                    break;
-            }
-
-			break;
-				case SDL_MOUSEMOTION:
-					MousePosition = Vec2({event.motion.x,event.motion.y});
+		case SDL_MOUSEBUTTONDOWN:
+			switch (event.button.button)
+			{
+			case SDL_BUTTON_LEFT:
+				if (event.button.state == SDL_PRESSED)
+				{
+					btn_mouse[0] = true;
+				}
 				break;
+
+			case SDL_BUTTON_RIGHT:
+				if (event.button.state == SDL_PRESSED)
+				{
+					btn_mouse[1] = true;
+				}
+				break;
+
+			case SDL_BUTTON_MIDDLE:
+				if (event.button.state == SDL_PRESSED)
+				{
+					btn_mouse[2] = true;
+				}
+				break;
+			}
+
+			break;
+		case SDL_MOUSEMOTION:
+			MousePosition = Vec2({event.motion.x, event.motion.y});
+			break;
 		}
 	}
 }
-Vec2 InputControle::GetPositionMouse(){
+Vec2 InputControle::GetPositionMouse()
+{
 	return MousePosition;
 }
 bool InputControle::MousePressed(int m)
@@ -79,9 +91,12 @@ bool InputControle::MousePressed(int m)
 }
 bool InputControle::KeyUp(int CodeKey)
 {
-	if(newKeyUp!=0){
+	if (newKeyUp != 0)
+	{
 		return (CodeKey == newKeyUp);
-	}else{
+	}
+	else
+	{
 		return false;
 	}
 }
@@ -89,33 +104,41 @@ bool InputControle::KeyUp(int CodeKey)
 bool InputControle::KeyDown(int CodeKey)
 {
 
-	if(newKeyDown!=0){
-		return (CodeKey ==  newKeyDown);
-	}else{
+	if (newKeyDown != 0)
+	{
+		return (CodeKey == newKeyDown);
+	}
+	else
+	{
 		return false;
 	}
+}
+bool InputControle::KeyDown()
+{
+	return newKeyDown != 0;
 }
 bool InputControle::KeyIsPressed(int CodeKey)
 {
 
-	for(int i =0; i< QuantKey;i++){
-		if(keyInPressed[i] == CodeKey){
-			return  true;
+	for (int i = 0; i < QuantKey; i++)
+	{
+		if (keyInPressed[i] == CodeKey)
+		{
+			return true;
 		}
 	}
 	return false;
 }
 
-
 void InputControle::RemoveKey(int Key)
 {
-	for(int i =0; i< QuantKey;i++){
-		if(keyInPressed[i] == Key){
+	for (int i = 0; i < QuantKey; i++)
+	{
+		if (keyInPressed[i] == Key)
+		{
 			keyInPressed[i] = 0;
 			QuantKey--;
 			break;
 		}
 	}
 }
-
-

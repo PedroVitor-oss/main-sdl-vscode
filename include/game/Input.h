@@ -4,7 +4,8 @@
 #include <SDL2/SDL.h>
 #include <Vec2.h>
 
-struct KeyControle {
+struct KeyControle
+{
     int Unknown = SDLK_UNKNOWN;
     int Return = SDLK_RETURN;
     int Escape = SDLK_ESCAPE;
@@ -93,10 +94,10 @@ struct KeyControle {
     int Pause = SDLK_PAUSE;
     int Insert = SDLK_INSERT;
     int Home = SDLK_HOME;
-
 };
 
-struct MouseButtonControle {
+struct MouseButtonControle
+{
     int Left = 0;
     int Right = 1;
     int Center = 2;
@@ -104,29 +105,30 @@ struct MouseButtonControle {
 
 class InputControle
 {
-	public:
-		bool KeyIsPressed(  int CodeKey );
-		bool KeyDown(  int CodeKey );
-		bool KeyUp(  int CodeKey);
+public:
+    bool KeyIsPressed(int CodeKey);
+    bool KeyDown(int CodeKey); // verifica se tecla especifica foi precionada
+    bool KeyDown();            // verifica se qualquer teclas foi precionada
+    bool KeyUp(int CodeKey);
 
-		void KeyEvent();
-		bool MousePressed(int m);
-		Vec2 GetPositionMouse();
-		bool GetExit();
-		MouseButtonControle MouseButton;
-	protected:
+    void KeyEvent();
+    bool MousePressed(int m);
+    Vec2 GetPositionMouse();
+    bool GetExit();
+    MouseButtonControle MouseButton;
 
-	protected:
-	    int keyInPressed[10] = {0};
-	    bool btn_mouse[3] = {false,false,false};
-        Vec2 MousePosition = Vec2(0,0);
-		int maxQuantKey = 10;
-		int QuantKey = 0;
-		int newKeyDown = 0;
-		int newKeyUp = 0;
-		void AddKey(int newKey);
-		void RemoveKey(int Key);
-		bool EventQuit = false;
+protected:
+protected:
+    int keyInPressed[10] = {0};
+    bool btn_mouse[3] = {false, false, false};
+    Vec2 MousePosition = Vec2(0, 0);
+    int maxQuantKey = 10;
+    int QuantKey = 0;
+    int newKeyDown = 0;
+    int newKeyUp = 0;
+    void AddKey(int newKey);
+    void RemoveKey(int Key);
+    bool EventQuit = false;
 };
 
 #endif // INPUT_H
