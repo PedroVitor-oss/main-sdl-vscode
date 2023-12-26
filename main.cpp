@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <Engine.h>
+#include <Animation.h>
 
 Engine Game;
 InputControle input;
@@ -20,7 +21,7 @@ int WinMain(int argc, char *argv[])
     Game.scene.adicionarCena(Tutorial);
 
     Game.scene.setCenaAtual(0);
-    while (1)
+    while (!input.GetExit())
     {
         Game.scene.chamarCenaAtual();
     }
@@ -31,11 +32,18 @@ void Tutorial()
 {
     SDL_Texture *bg = Game.CreateTexture("../img/Tutorial/Tutorial (First)/Drawing/tutorial_room_back_layer_0001.png");
     SDL_Texture *bg2 = Game.CreateTexture("../img/Tutorial/Tutorial (First)/Drawing/tutorial_room_front_layer_0001.png");
+    Animation idle;
+    idle.LoadAniamtion("../animation/idle.txt", Game);
+    idle.SetTimeUpdate(2);
 
-    Game.DrawTexture(bg, {0, 0, 0, 0}, {0, 0, 1200, 700});
-    Game.Update(41, input);
     while (!input.GetExit() && Game.scene.GetIndexCena() == 1)
     {
+        Game.Clean();
+        idle.Update();
+
+        Game.DrawTexture(bg, {0, 0, 0, 0}, {0, 0, 1200, 700});
+        Game.DrawTexture(idle.GetTexture(), idle.GetSprite(), {100, 100, 98, 155});
+        Game.Update(41, input);
         input.KeyEvent();
     }
 }

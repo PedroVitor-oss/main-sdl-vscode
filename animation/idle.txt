@@ -1,0 +1,3 @@
+frames: {0,0}, {0,1}, {0,2}, {0,3}, {0,4}, {0,3}, {0,2}, {0,1}
+textures: "../img/cuphead/Idle/cuphead_idle_0001.png", "../img/cuphead/Idle/cuphead_idle_0002.png", "../img/cuphead/Idle/cuphead_idle_0003.png", "../img/cuphead/Idle/cuphead_idle_0004.png", "../img/cuphead/Idle/cuphead_idle_0005.png"
+sprites: {0,0,0,0}

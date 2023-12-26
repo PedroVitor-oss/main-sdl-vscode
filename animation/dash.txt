@@ -1,0 +1,3 @@
+frames: {0,0}, {0,1}, {0,2}, {0,3}, {0,4}, {0,5}
+textures: "..img/cuphead/Dash/Air/cuphead_dash_air_0001.png", "..img/cuphead/Dash/Air/cuphead_dash_air_0002.png", "..img/cuphead/Dash/Air/cuphead_dash_air_0003.png", "..img/cuphead/Dash/Air/cuphead_dash_air_0004.png", "..img/cuphead/Dash/Air/cuphead_dash_air_0005.png", "..img/cuphead/Dash/Air/cuphead_dash_air_0006.png"
+sprites: {0,0,0,0}

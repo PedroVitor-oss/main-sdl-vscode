@@ -1,0 +1,3 @@
+frames: {0,0}, {0,1}, {0,2}
+textures: "..img/cuphead/Shoot/Straight/cuphead_shoot_straight_0001.png", "..img/cuphead/Shoot/Straight/cuphead_shoot_straight_0002.png", "..img/cuphead/Shoot/Straight/cuphead_shoot_straight_0003.png"
+sprites: {0,0,0,0}
